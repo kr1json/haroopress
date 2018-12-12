@@ -9,7 +9,7 @@ guide:
 	cat ./lib/haroopress/QUICK.markdown
 
 initialize:
-	npm install -g node-gyp
+	bash -l -c 'nvm use 0.10;npm install -g node-gyp'
 	git submodule update --init --recursive
 	cd ./node_modules/robotskirt;node-gyp rebuild
 	cd ./node_modules/locally/;npm install
@@ -24,18 +24,21 @@ update:
 	cd ./node_modules/robotskirt;node-gyp rebuild
 
 init-data: 
+	bash -l -c 'nvm use 0.10'
 	@echo "========================================"
 	@echo "= create default data set"
 	@echo "========================================"
 	./bin/init.js
 
 setup:
+	bash -l -c 'nvm use 0.10'
 	@echo "========================================"
 	@echo "= configurate haroopress"
 	@echo "========================================"
 	./bin/setup.js
 
 gh-pages: clear
+	bash -l -c 'nvm use 0.10'
 	@echo "========================================"
 	@echo "= setup repository for deployment"
 	@echo "========================================"
@@ -45,13 +48,13 @@ clear:
 	@echo "========================================"
 	@echo "= clear public & deployment directories"
 	@echo "========================================"
-	./bin/clear.js
+	bash -l -c 'nvm use 0.10; ./bin/clear.js'
 
 gen: clear 
 	@echo "========================================"
 	@echo "= generate to static page"
 	@echo "========================================"
-	./bin/gen.js
+	bash -l -c 'nvm use 0.10; ./bin/gen.js'
 	mkdir -p ${PUBLIC_DIR}/slides/@asserts
 	cp -R ./lib/shower/themes ${PUBLIC_DIR}/slides/@asserts
 	cp -R ./lib/shower/scripts ${PUBLIC_DIR}/slides/@asserts
@@ -61,27 +64,33 @@ preview: gen
 	@echo "========================================"
 	@echo "= preview static page"
 	@echo "========================================"
-	./bin/preview.js
+	bash -l -c 'nvm use 0.10; ./bin/preview.js'
 	
 deploy: gen
 	@echo "========================================"
 	@echo "= deploy to github"
 	@echo "========================================"
-	cd ./bin;./deploy.js "${msg}"
+	bash -l -c 'nvm use 0.10; cd ./bin; ./deploy.js "${msg}"'
 
 new-post:
-	cd ./bin;./new-post.js
+	bash -l -c 'nvm use 0.10; cd ./bin;./new-post.js'
 
 new-page:
-	cd ./bin;./new-page.js
+	bash -l -c 'nvm use 0.10; cd ./bin;./new-page.js'
 
 new-slide:
-	cd ./bin;./new-slide.js
+	bash -l -c 'nvm use 0.10; cd ./bin;./new-slide.js'
 
 octopress:
 	@echo "========================================"
 	@echo "= convert from octopress"
 	@echo "========================================"
 	cd ./bin/convert/;./octopress.js
+
+usenvm:
+	bash -l -c 'nvm use 0.10'
+
+defaultnmv:
+	bash -l -c 'nvm use default'
 
 .PHONY: init update build clear
